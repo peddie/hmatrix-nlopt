@@ -1,0 +1,6 @@
+flags:
+packages:
+ - '.'
+ - '../nlopt-haskell'
+extra-deps:
+resolver: lts-8.4
