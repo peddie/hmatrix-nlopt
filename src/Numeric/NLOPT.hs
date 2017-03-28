@@ -345,7 +345,7 @@ instance ApplyConstraint (InequalityConstraint ScalarConstraintD VectorConstrain
 -- the example from the beginning of the module.  This prevents the
 -- optimizer from locating the true minimum at @(0, 0)@; a slightly
 -- higher constrained minimum at @(1, 1)@ is found.  Note that the
--- optimizer returns 'XTOL_REACHED' rather than 'FTOL_REACHED',
+-- optimizer returns 'N.XTOL_REACHED' rather than 'N.FTOL_REACHED',
 -- because the bound constraint is active at the final minimum.
 --
 -- >>> import Numeric.LinearAlgebra ( dot, fromList )
@@ -470,6 +470,10 @@ data GlobalProblem = GlobalProblem
 -- | These are the global minimization algorithms provided by NLOPT.  Please see
 -- <http://ab-initio.mit.edu/wiki/index.php/NLopt_Algorithms the NLOPT algorithm manual>
 -- for more details on how the methods work and how they relate to one another.
+--
+-- Optional parameters are wrapped in a 'Maybe'; for example, if you
+-- see 'Maybe' 'Population', you can simply specify 'Nothing' to use
+-- the default behavior.
 data GlobalAlgorithm
     -- | DIviding RECTangles
   = DIRECT Objective
@@ -654,6 +658,10 @@ data LocalProblem = LocalProblem
 -- another.  Note that some local methods require you provide
 -- derivatives (gradients or Jacobians) for your objective function
 -- and constraint functions.
+--
+-- Optional parameters are wrapped in a 'Maybe'; for example, if you
+-- see 'Maybe' 'VectorStorage', you can simply specify 'Nothing' to
+-- use the default behavior.
 data LocalAlgorithm
     -- | Limited-memory BFGS
   = LBFGS_NOCEDAL ObjectiveD (Maybe VectorStorage)
