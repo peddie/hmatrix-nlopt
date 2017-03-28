@@ -500,7 +500,7 @@ data GlobalAlgorithm
     -- __This algorithm is only available if you have linked with @libnlopt_cxx@.__
   | STOGO_RAND ObjectiveD RandomSeed
     -- | Controlled Random Search with Local Mutation
-  | CRS2_LM Objective RandomSeed
+  | CRS2_LM Objective RandomSeed (Maybe Population)
     -- | Improved Stochastic Ranking Evolution Strategy
   | ISRES Objective InequalityConstraints EqualityConstraints RandomSeed
     -- | Evolutionary Algorithm
@@ -522,7 +522,7 @@ algorithmEnumOfGlobal (ORIG_DIRECT _ _)          = N.GN_ORIG_DIRECT
 algorithmEnumOfGlobal (ORIG_DIRECT_L _ _)        = N.GN_ORIG_DIRECT_L
 algorithmEnumOfGlobal (STOGO _)                  = N.GD_STOGO
 algorithmEnumOfGlobal (STOGO_RAND _ _)           = N.GD_STOGO_RAND
-algorithmEnumOfGlobal (CRS2_LM _ _)              = N.GN_CRS2_LM
+algorithmEnumOfGlobal (CRS2_LM _ _ _)            = N.GN_CRS2_LM
 algorithmEnumOfGlobal (ISRES _ _ _ _)            = N.GN_ISRES
 algorithmEnumOfGlobal (ESCH _)                   = N.GN_ESCH
 algorithmEnumOfGlobal (MLSL _ _ _)               = N.G_MLSL
@@ -545,7 +545,7 @@ applyGlobalObjective opt alg = go alg
     go (ORIG_DIRECT o _)          = obj o
     go (ORIG_DIRECT_L o _)        = obj o
     go (STOGO_RAND o _)           = objD o
-    go (CRS2_LM o _)              = obj o
+    go (CRS2_LM o _ _)            = obj o
     go (ISRES o _ _ _)            = obj o
     go (MLSL o _ _)               = obj o
     go (MLSL_LDS o _ _)           = obj o
@@ -567,7 +567,7 @@ applyGlobalAlgorithm opt alg = do
     go (ORIG_DIRECT _ ineq)       = ic ineq
     go (ORIG_DIRECT_L _ ineq)     = ic ineq
     go (STOGO_RAND _ s)           = seed s
-    go (CRS2_LM _ s)              = seed s
+    go (CRS2_LM _ s p)            = seed s *> pop p
     go (ISRES _ ineq eq s)        = ic ineq *> ec eq *> seed s
     go (MLSL _ lp p)              = local lp *> pop p
     go (MLSL_LDS _ lp p)          = local lp *> pop p
