@@ -1,7 +1,9 @@
 name:                hmatrix-nlopt
 version:             0.1.0.0
 synopsis:            Interface HMatrix with the NLOPT minimizer
--- description:
+description:         A high-level interface to
+                     <http://ab-initio.mit.edu/wiki/index.php/NLopt the NLOPT solvers>
+                     using @hmatrix@ vectors and matrices.
 homepage:            https://github.com/peddie/hmatrix-nlopt
 license:             BSD3
 license-file:        LICENSE
