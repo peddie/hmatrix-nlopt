@@ -3,4 +3,4 @@ packages:
  - '.'
  - '../nlopt-haskell'
 extra-deps:
-resolver: lts-8.4
+resolver: lts-10.3
