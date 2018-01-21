@@ -1,5 +1,5 @@
 name:                hmatrix-nlopt
-version:             0.1.0.0
+version:             0.1.1.0
 synopsis:            Interface HMatrix with the NLOPT minimizer
 description:         A high-level interface to
                      <http://ab-initio.mit.edu/wiki/index.php/NLopt the NLOPT solvers>
