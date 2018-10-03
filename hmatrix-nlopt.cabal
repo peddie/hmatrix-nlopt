@@ -1,5 +1,5 @@
 name:                hmatrix-nlopt
-version:             0.1.2.0
+version:             0.1.3.0
 synopsis:            Interface HMatrix with the NLOPT minimizer
 description:         A high-level interface to
                      <http://ab-initio.mit.edu/wiki/index.php/NLopt the NLOPT solvers>
@@ -23,10 +23,10 @@ source-repository head
 
 library
   exposed-modules:     Numeric.NLOPT
-  build-depends:       base >=4.9 && <4.12
+  build-depends:       base >=4.9 && <5
                      , hmatrix >= 0.17
                      , vector >= 0.10
-                     , nlopt-haskell >= 0.1.2.0
+                     , nlopt-haskell >= 0.1.3.0
   hs-source-dirs:      src
   default-language:    Haskell2010
 
