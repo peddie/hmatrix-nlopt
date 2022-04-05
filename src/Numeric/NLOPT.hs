@@ -97,7 +97,6 @@ module Numeric.NLOPT (
   ) where
 
 import Numeric.LinearAlgebra as HM
-import Numeric.LinearAlgebra (Vector, Matrix)
 import qualified Numeric.Optimization.NLOPT.Bindings as N
 
 import Data.List.NonEmpty (NonEmpty(..))
