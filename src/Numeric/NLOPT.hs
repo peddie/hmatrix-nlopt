@@ -502,7 +502,7 @@ data GlobalAlgorithm
     -- | Controlled Random Search with Local Mutation
   | CRS2_LM Objective RandomSeed (Maybe Population)
     -- | Improved Stochastic Ranking Evolution Strategy
-  | ISRES Objective InequalityConstraints EqualityConstraints RandomSeed
+  | ISRES Objective InequalityConstraints EqualityConstraints RandomSeed (Maybe Population)
     -- | Evolutionary Algorithm
   | ESCH Objective
     -- | Original Multi-Level Single-Linkage
@@ -523,7 +523,7 @@ algorithmEnumOfGlobal (ORIG_DIRECT_L _ _)        = N.GN_ORIG_DIRECT_L
 algorithmEnumOfGlobal (STOGO _)                  = N.GD_STOGO
 algorithmEnumOfGlobal (STOGO_RAND _ _)           = N.GD_STOGO_RAND
 algorithmEnumOfGlobal (CRS2_LM _ _ _)            = N.GN_CRS2_LM
-algorithmEnumOfGlobal (ISRES _ _ _ _)            = N.GN_ISRES
+algorithmEnumOfGlobal (ISRES _ _ _ _ _)          = N.GN_ISRES
 algorithmEnumOfGlobal (ESCH _)                   = N.GN_ESCH
 algorithmEnumOfGlobal (MLSL _ _ _)               = N.G_MLSL
 algorithmEnumOfGlobal (MLSL_LDS _ _ _)           = N.G_MLSL_LDS
@@ -546,7 +546,7 @@ applyGlobalObjective opt alg = go alg
     go (ORIG_DIRECT_L o _)        = obj o
     go (STOGO_RAND o _)           = objD o
     go (CRS2_LM o _ _)            = obj o
-    go (ISRES o _ _ _)            = obj o
+    go (ISRES o _ _ _ _)          = obj o
     go (MLSL o _ _)               = obj o
     go (MLSL_LDS o _ _)           = obj o
 
@@ -568,7 +568,7 @@ applyGlobalAlgorithm opt alg = do
     go (ORIG_DIRECT_L _ ineq)     = ic ineq
     go (STOGO_RAND _ s)           = seed s
     go (CRS2_LM _ s p)            = seed s *> pop p
-    go (ISRES _ ineq eq s)        = ic ineq *> ec eq *> seed s
+    go (ISRES _ ineq eq s p)      = ic ineq *> ec eq *> seed s *> pop p
     go (MLSL _ lp p)              = local lp *> pop p
     go (MLSL_LDS _ lp p)          = local lp *> pop p
     go _                          = return ()
@@ -594,13 +594,13 @@ instance Exception NloptException
 -- dimension.
 --
 -- >>> import Numeric.LinearAlgebra ( dot, fromList )
--- >>> let objf x = x `dot` x + 22                         -- define objective
--- >>> let stop = ObjectiveRelativeTolerance 1e-12 :| []   -- define stopping criterion
--- >>> let algorithm = ISRES objf [] [] (SeedValue 22)     -- specify algorithm
--- >>> let lowerbounds = fromList [-10, -10]               -- specify bounds
--- >>> let upperbounds = fromList [10, 10]                 -- specify bounds
+-- >>> let objf x = x `dot` x + 22                              -- define objective
+-- >>> let stop = ObjectiveRelativeTolerance 1e-12 :| []        -- define stopping criterion
+-- >>> let algorithm = ISRES objf [] [] (SeedValue 22) Nothing  -- specify algorithm
+-- >>> let lowerbounds = fromList [-10, -10]                    -- specify bounds
+-- >>> let upperbounds = fromList [10, 10]                      -- specify bounds
 -- >>> let problem = GlobalProblem lowerbounds upperbounds stop algorithm
--- >>> let x0 = fromList [5, 8]                            -- specify initial guess
+-- >>> let x0 = fromList [5, 8]                                 -- specify initial guess
 -- >>> minimizeGlobal problem x0
 -- Right (Solution {solutionCost = 22.000000000002807, solutionParams = [-1.660591102367038e-6,2.2407062393213684e-7], solutionResult = FTOL_REACHED})
 minimizeGlobal :: GlobalProblem  -- ^ Problem specification
